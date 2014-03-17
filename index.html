@@ -7,7 +7,9 @@
 <script src="physics.js"></script>
 <script src="atom.js"></script>
 </head>
-<body>
+
+<body onload="animate();"><body> <!-- avoid starting twice -->
+
 <canvas id="myCanvas"></canvas>
 <p> 
 (Click to start and stop)
@@ -119,8 +121,6 @@ function animate()
     // request new frame
     requestAnimFrame( animate );
 }
-
-animate();
 
 </script> 
 </body>
