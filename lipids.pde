@@ -1,5 +1,3 @@
-/* OpenProcessing Tweak of *@*http://www.openprocessing.org/sketch/43168*@* */
-/* !do not delete the line above, required for linking your tweak if you upload again */
 // 2011 Tim Hutton <tim.hutton@gmail.com> - http://www.sq3.org.uk
 
 // A model of bilayer lipid membranes
@@ -222,5 +220,3 @@ class Atom
   }
   
 }
-
-

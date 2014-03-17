@@ -1,0 +1,126 @@
+<html>
+<title>jsChemistry</title>
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<script src="point2d.js"></script>
+<script src="physics.js"></script>
+<script src="atom.js"></script>
+</head>
+<body>
+<canvas id="myCanvas"></canvas>
+<p> 
+<script>
+
+var canvas  = document.getElementById( 'myCanvas' );
+var context = canvas.getContext( '2d' );
+
+canvas.width = 700;
+canvas.height = 500;
+
+// 2011 Tim Hutton <tim.hutton@gmail.com> - http://www.sq3.org.uk
+
+// A model of bilayer lipid membranes
+// Based on Naoaki Ono's PhD thesis
+
+var R = 6;
+
+var STRONG_FORCE_RANGE = 10*R;
+var MEDIUM_FORCE_RANGE = 3*R;
+var WEAK_FORCE_RANGE   = 2*R;
+var SPRING_FORCE_RANGE = 2*R;
+var REACTION_RANGE = 6*R;
+
+var STRONG_FORCE_MAGNITUDE = 0.02;
+var MEDIUM_FORCE_MAGNITUDE = 0.1;
+var WEAK_FORCE_MAGNITUDE   = 0.2;
+var SPRING_FORCE_MAGNITUDE = 0.1;
+
+var WATER = 0;
+var HYDROPHOBIC = 1;
+var HYDROPHILIC = 2;
+var NEUTRAL = 3;
+
+var MAX_SPEED = 0.3*R;
+
+var atoms = new Array();
+var N_ATOMS = canvas.width * canvas.height / ( R * 70 );
+
+for( var i = 0; i < N_ATOMS; ++i )
+{
+    switch( i % 8 ) 
+    {
+      default: atoms[i] = new Atom( WATER ); break;
+      case 0: atoms[i] = new Atom( NEUTRAL ); break; // for lipid bilayers
+      //case 0: atoms[i] = new Atom( HYDROPHOBIC ); break; // for simple oil-water separation
+    }
+}
+
+function onMouseMove( evt )
+{
+}
+
+var pause = false;
+
+function onMouseDown( evt ) {
+   pause = !pause;
+   console.log("click");
+}
+
+window.onmousedown=onMouseDown;
+
+function onMouseUp( evt ) {
+}
+
+function onMouseOut( evt ) {
+}
+
+function getMousePos( canvas, evt ) {
+};
+      
+window.requestAnimFrame = (function(callback)
+{
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+        function(callback) {
+            window.setTimeout(callback, 1000 / 30);
+        };
+})();
+
+function update()
+{
+    if( !pause )
+    {
+        var speed = 1;
+        for( var i = 0; i < speed; ++i )
+        {
+            recomputeAccelerations();
+            recomputeVelocities();
+            recomputePositions();
+        }
+    }
+}
+
+function animate()
+{
+    update();
+
+    // draw the background
+    context.fillStyle = "rgb(200,200,200)";
+    context.beginPath();
+    context.fillRect( 0, 0, canvas.width, canvas.height );
+    context.closePath();
+
+    for( var i = 0; i < N_ATOMS; ++i )
+    {
+        atoms[i].drawAtom( context );
+    }
+
+    // request new frame
+    requestAnimFrame( animate );
+}
+
+animate();
+
+</script> 
+</body>
+</html>
